@@ -1,69 +1,229 @@
-function TaskList({ taskNames, onDeleteTask, onCompleted, onUpdate, editTaskId, editTaskName, setEditTaskName, save, reset }) {
+import {
+    Box,
+    Button,
+    Checkbox,
+    Chip,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TextField
+} from "@mui/material";
+
+function TaskList({
+    taskNames,
+    onDeleteTask,
+    onCompleted,
+    onUpdate,
+    editTaskId,
+    editTaskName,
+    setEditTaskName,
+    save,
+    reset
+}) {
 
     return (
-        <table border="1" cellPadding="10">
+        <TableContainer
+            component={Paper}
+            elevation={1}
+        >
 
-            <thead>
-                <tr>
-                    <th>Task</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
+            <Table>
 
-            <tbody>
+                <TableHead>
 
-                {taskNames.map((task) => (
+                    <TableRow>
 
-                    <tr key={task.id}>
+                        <TableCell sx={{ fontWeight: 600 }}>
+                            Task
+                        </TableCell>
 
-                        <td>
-                            {task.id === editTaskId ? (
-                                // EDIT MODE
-                                <input value={editTaskName}
-                                    onChange={(event) => setEditTaskName(event.target.value)} />
-                            ) : (
-                                // NORMAL MODE
-                                <>
-                                    <input
-                                        type="checkbox"
-                                        checked={task.completed}
-                                        onChange={() => onCompleted(task.id)}
+                        <TableCell sx={{ fontWeight: 600 }}>
+                            Status
+                        </TableCell>
+
+                        <TableCell
+                            align="right"
+                            sx={{ fontWeight: 600 }}
+                        >
+                            Actions
+                        </TableCell>
+
+                    </TableRow>
+
+                </TableHead>
+
+                <TableBody>
+
+                    {taskNames.map((task) => (
+
+                        <TableRow key={task.id}>
+
+                            <TableCell>
+
+                                {task.id === editTaskId ? (
+
+                                    <TextField
+                                        size="small"
+                                        fullWidth
+                                        value={editTaskName}
+                                        onChange={(event) =>
+                                            setEditTaskName(
+                                                event.target.value
+                                            )
+                                        }
                                     />
-                                    {task.name}
-                                </>
-                            )}
-                        </td>
 
-                        <td>
+                                ) : (
 
-                            {
-                                task.id === editTaskId ? (
-                                    // EDIT MODE
-                                    <>
-                                        <button onClick={() => save()} >Save</button>
-                                        <button onClick={() => reset()} >Cancel</button>
-                                    </>
-                                ) : <>
-                                    <button onClick={() => onCompleted(task.id)}>
-                                        Complete
-                                    </button>
-                                    <button onClick={() => onDeleteTask(task)}>
-                                        Delete
-                                    </button>
-                                    <button onClick={() => onUpdate(task.id, task.name)} >
-                                        Update</button>
-                                </>
-                            }
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            alignItems: "center"
+                                        }}
+                                    >
 
-                        </td>
+                                        <Checkbox
+                                            checked={task.completed}
+                                            onChange={() =>
+                                                onCompleted(task.id)
+                                            }
+                                        />
 
-                    </tr>
+                                        <Box
+                                            component="span"
+                                            sx={{
+                                                textDecoration:
+                                                    task.completed
+                                                        ? "line-through"
+                                                        : "none",
+                                                color:
+                                                    task.completed
+                                                        ? "text.secondary"
+                                                        : "text.primary"
+                                            }}
+                                        >
+                                            {task.name}
+                                        </Box>
 
-                ))}
+                                    </Box>
 
-            </tbody>
+                                )}
 
-        </table>
+                            </TableCell>
+
+                            <TableCell>
+
+                                <Chip
+                                    label={
+                                        task.completed
+                                            ? "Completed"
+                                            : "Pending"
+                                    }
+                                    size="small"
+                                    color={
+                                        task.completed
+                                            ? "success"
+                                            : "default"
+                                    }
+                                />
+
+                            </TableCell>
+
+                            <TableCell align="right">
+
+                                {task.id === editTaskId ? (
+
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            gap: 1,
+                                            justifyContent: "flex-end"
+                                        }}
+                                    >
+
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            onClick={save}
+                                        >
+                                            Save
+                                        </Button>
+
+                                        <Button
+                                            variant="outlined"
+                                            size="small"
+                                            onClick={reset}
+                                        >
+                                            Cancel
+                                        </Button>
+
+                                    </Box>
+
+                                ) : (
+
+                                    <Box
+                                        sx={{
+                                            display: "flex",
+                                            gap: 1,
+                                            justifyContent: "flex-end"
+                                        }}
+                                    >
+
+                                        <Button
+                                            variant="outlined"
+                                            size="small"
+                                            onClick={() =>
+                                                onCompleted(task.id)
+                                            }
+                                        >
+                                            {task.completed
+                                                ? "Undo"
+                                                : "Complete"}
+                                        </Button>
+
+                                        <Button
+                                            variant="outlined"
+                                            size="small"
+                                            onClick={() =>
+                                                onUpdate(
+                                                    task.id,
+                                                    task.name
+                                                )
+                                            }
+                                        >
+                                            Update
+                                        </Button>
+
+                                        <Button
+                                            variant="outlined"
+                                            color="error"
+                                            size="small"
+                                            onClick={() =>
+                                                onDeleteTask(task)
+                                            }
+                                        >
+                                            Delete
+                                        </Button>
+
+                                    </Box>
+
+                                )}
+
+                            </TableCell>
+
+                        </TableRow>
+
+                    ))}
+
+                </TableBody>
+
+            </Table>
+
+        </TableContainer>
     );
 }
 

@@ -7,7 +7,6 @@ function App() {
   return (
     <div>
       <section></section>
-      <Title text="Task Management" />
       <TaskName/> 
     </div>
   )

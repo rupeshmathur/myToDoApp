@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "./Button";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 function TaskForm({ onAddTask }) {
 
@@ -15,26 +15,52 @@ function TaskForm({ onAddTask }) {
             return;
         }
 
-        onAddTask(taskName);
+        onAddTask(taskName.trim());
 
         setTaskName("");
     }
 
     return (
-        <>
-            <h2>Task Name</h2>
+        <Box sx={{ mb: 4 }}>
 
-            <input
-                value={taskName}
-                onChange={onValueChange}
-            />
+            <Typography
+                variant="h6"
+                sx={{ mb: 2, fontWeight: 600 }}
+            >
+                Add a new task
+            </Typography>
 
-            <br />
+            <Box
+                sx={{
+                    display: "flex",
+                    gap: 2,
+                    alignItems: "center"
+                }}
+            >
 
-            <Button onClick={addTaskValues}>
-                Add Task
-            </Button>
-        </>
+                <TextField
+                    fullWidth
+                    label="Task name"
+                    placeholder="Enter a task"
+                    value={taskName}
+                    onChange={onValueChange}
+                    size="small"
+                />
+
+                <Button
+                    variant="contained"
+                    onClick={addTaskValues}
+                    sx={{
+                        minWidth: 120,
+                        height: 40
+                    }}
+                >
+                    Add Task
+                </Button>
+
+            </Box>
+
+        </Box>
     );
 }
 
