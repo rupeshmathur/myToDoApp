@@ -12,6 +12,7 @@ import {
     TableRow,
     TextField
 } from "@mui/material";
+import BasicSelect from "./BasicSelect";
 
 function TaskList({
     taskNames,
@@ -42,7 +43,15 @@ function TaskList({
                         </TableCell>
 
                         <TableCell sx={{ fontWeight: 600 }}>
+                            Priority
+                        </TableCell>
+
+                        <TableCell sx={{ fontWeight: 600 }}>
                             Status
+                        </TableCell>
+
+                        <TableCell sx={{ fontWeight: 600 }}>
+                            Task Date
                         </TableCell>
 
                         <TableCell
@@ -117,6 +126,12 @@ function TaskList({
 
                             <TableCell>
 
+                                <BasicSelect priority={task.priority}/>
+
+                            </TableCell>
+
+                            <TableCell>
+
                                 <Chip
                                     label={
                                         task.completed
@@ -128,6 +143,19 @@ function TaskList({
                                         task.completed
                                             ? "success"
                                             : "default"
+                                    }
+                                />
+
+                            </TableCell>
+
+                            
+
+                            <TableCell>
+
+                                <Chip
+                                    label={
+                                        task.taskDate
+
                                     }
                                 />
 

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
-function TaskForm({ onAddTask }) {
+
+
+function TaskForm({ onAddTask}) {
 
     const [taskName, setTaskName] = useState("");
 
@@ -21,7 +23,12 @@ function TaskForm({ onAddTask }) {
     }
 
     return (
+
+
         <Box sx={{ mb: 4 }}>
+
+
+
 
             <Typography
                 variant="h6"
@@ -29,6 +36,8 @@ function TaskForm({ onAddTask }) {
             >
                 Add a new task
             </Typography>
+
+
 
             <Box
                 sx={{
@@ -59,6 +68,8 @@ function TaskForm({ onAddTask }) {
                 </Button>
 
             </Box>
+
+
 
         </Box>
     );

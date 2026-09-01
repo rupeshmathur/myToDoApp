@@ -1,32 +1,73 @@
 import { Box, Container, Paper, Typography } from "@mui/material";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import dayjs from 'dayjs';
 import TaskForm from "./TaskForm";
 import TaskList from "./TaskList";
+import DatePickerLocal from "./DatePickerLocal";
 
 function TaskName() {
 
     const [taskNames, setTaskNames] = useState([]);
-    const [index, setIndex] = useState(0);
+    const [selectedDate, setSelectedDate] = useState(dayjs());
+    const [taskPriority, setTaskPriority] = useState("");
+
+    function onDateChange(date) {
+        setSelectedDate(date);
+        console.log(selectedDate.format("YYYY-MM-DD"));
+
+    }
+    const filteredTasks = taskNames.filter(
+        task =>
+            task.taskDate === selectedDate.format("YYYY-MM-DD")
+    );
 
     const [editTaskId, setEditTaskId] = useState(null);
     const [editTaskName, setEditTaskName] = useState("");
+    const [isLoaded, setIsLoaded] = useState(false);
 
     function addTask(taskName) {
 
         const taskObj = {
-            id: index,
+            id: crypto.randomUUID(),
             name: taskName,
-            completed: false
+            completed: false,
+            taskDate: selectedDate.format("YYYY-MM-DD"),
+            priority: "LOW"
+
         };
 
-        setIndex(index + 1);
+
 
         setTaskNames(tasks => [
             ...tasks,
             taskObj
         ]);
     }
+
+    useEffect(() => {
+
+        if (!isLoaded) {
+            return;
+        }
+
+        localStorage.setItem(
+            "tasks",
+            JSON.stringify(taskNames)
+        );
+
+    }, [taskNames, isLoaded]);
+
+    useEffect(() => {
+
+        const savedTasks = localStorage.getItem("tasks");
+
+        if (savedTasks) {
+            setTaskNames(JSON.parse(savedTasks));
+        }
+
+        setIsLoaded(true);
+
+    }, []);
 
     function removeFromList(task) {
 
@@ -111,10 +152,14 @@ function TaskName() {
 
                     <TaskForm
                         onAddTask={addTask}
+
                     />
 
+                    <DatePickerLocal selectedDate={selectedDate}
+                        onDateChange={onDateChange} />
+
                     <TaskList
-                        taskNames={taskNames}
+                        taskNames={filteredTasks}
                         onDeleteTask={removeFromList}
                         onCompleted={markComplete}
                         onUpdate={updateTask}
@@ -123,6 +168,7 @@ function TaskName() {
                         setEditTaskName={setEditTaskName}
                         save={save}
                         reset={reset}
+
                     />
 
                 </Paper>
