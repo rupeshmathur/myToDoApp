@@ -12,6 +12,7 @@ import {
     TableRow,
     TextField
 } from "@mui/material";
+import BasicSelect from "./BasicSelect";
 
 function TaskList({
     taskNames,
@@ -23,7 +24,8 @@ function TaskList({
     setEditTaskName,
     save,
     reset,
-    priority
+    editTaskPriority,
+    onEditPriorityChange
 }) {
 
     return (
@@ -126,7 +128,18 @@ function TaskList({
 
                             <TableCell>
 
-                              {task.priority}
+                                {task.id === editTaskId ? (
+
+                                    <BasicSelect
+                                        taskPriority={editTaskPriority}
+                                        onPriorityChange={onEditPriorityChange}
+                                    />
+
+                                ) : (
+
+                                    task.priority
+
+                                )}
 
                             </TableCell>
 
@@ -148,7 +161,7 @@ function TaskList({
 
                             </TableCell>
 
-                            
+
 
                             <TableCell>
 

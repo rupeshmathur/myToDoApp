@@ -14,6 +14,7 @@ function TaskName() {
     const [editTaskId, setEditTaskId] = useState(null);
     const [editTaskName, setEditTaskName] = useState("");
     const [isLoaded, setIsLoaded] = useState(false);
+    const [editTaskPriority, setEditTaskPriority] = useState("");
 
     function onDateChange(date) {
         setSelectedDate(date);
@@ -22,6 +23,10 @@ function TaskName() {
     }
     function onPriorityChange(event) {
         setTaskPriority(event.target.value);
+    }
+    function onEditPriorityChange(event)
+    {
+        setEditTaskPriority(event.target.value);
     }
     const filteredTasks = taskNames.filter(
         task =>
@@ -98,7 +103,7 @@ function TaskName() {
 
         setEditTaskId(id);
         setEditTaskName(name);
-        setTaskPriority(priority);
+        setEditTaskPriority(priority);
     }
 
     function save() {
@@ -109,7 +114,7 @@ function TaskName() {
                     ? {
                         ...task,
                         name: editTaskName,
-                        priority: taskPriority
+                        priority: editTaskPriority
                     }
                     : task
             )
@@ -121,7 +126,7 @@ function TaskName() {
     function reset() {
         setEditTaskId(null);
         setEditTaskName("");
-        setTaskPriority("");
+        setEditTaskPriority("");
     }
 
     return (
@@ -178,6 +183,8 @@ function TaskName() {
                         save={save}
                         reset={reset}
                         taskPriority={taskPriority}
+                        editTaskPriority={editTaskPriority}
+                        onEditPriorityChange={onEditPriorityChange}
 
                     />
 
