@@ -11,7 +11,7 @@ function DatePickerLocal({ selectedDate, onDateChange }) {
         <Typography
             variant="h6"
             sx={{ mb: 2, fontWeight: 600 }}
-        >
+        >Selected Date
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer
@@ -22,7 +22,7 @@ function DatePickerLocal({ selectedDate, onDateChange }) {
                     ]}
                 >
 
-                    <DemoItem>Selected Date
+                    <DemoItem >
                         <MobileDatePicker  value={selectedDate} onChange={(newValue) => onDateChange(newValue)} />
                     </DemoItem>
 

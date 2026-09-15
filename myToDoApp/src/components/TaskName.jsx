@@ -4,26 +4,29 @@ import dayjs from 'dayjs';
 import TaskForm from "./TaskForm";
 import TaskList from "./TaskList";
 import DatePickerLocal from "./DatePickerLocal";
+import BasicSelect from "./BasicSelect";
 
 function TaskName() {
 
     const [taskNames, setTaskNames] = useState([]);
     const [selectedDate, setSelectedDate] = useState(dayjs());
     const [taskPriority, setTaskPriority] = useState("");
+    const [editTaskId, setEditTaskId] = useState(null);
+    const [editTaskName, setEditTaskName] = useState("");
+    const [isLoaded, setIsLoaded] = useState(false);
 
     function onDateChange(date) {
         setSelectedDate(date);
         console.log(selectedDate.format("YYYY-MM-DD"));
 
     }
+    function onPriorityChange(event) {
+        setTaskPriority(event.target.value);
+    }
     const filteredTasks = taskNames.filter(
         task =>
             task.taskDate === selectedDate.format("YYYY-MM-DD")
     );
-
-    const [editTaskId, setEditTaskId] = useState(null);
-    const [editTaskName, setEditTaskName] = useState("");
-    const [isLoaded, setIsLoaded] = useState(false);
 
     function addTask(taskName) {
 
@@ -32,7 +35,7 @@ function TaskName() {
             name: taskName,
             completed: false,
             taskDate: selectedDate.format("YYYY-MM-DD"),
-            priority: "LOW"
+            priority: taskPriority
 
         };
 
@@ -91,10 +94,11 @@ function TaskName() {
         );
     }
 
-    function updateTask(id, name) {
+    function updateTask(id, name, priority) {
 
         setEditTaskId(id);
         setEditTaskName(name);
+        setTaskPriority(priority);
     }
 
     function save() {
@@ -104,7 +108,8 @@ function TaskName() {
                 task.id === editTaskId
                     ? {
                         ...task,
-                        name: editTaskName
+                        name: editTaskName,
+                        priority: taskPriority
                     }
                     : task
             )
@@ -116,6 +121,7 @@ function TaskName() {
     function reset() {
         setEditTaskId(null);
         setEditTaskName("");
+        setTaskPriority("");
     }
 
     return (
@@ -158,6 +164,9 @@ function TaskName() {
                     <DatePickerLocal selectedDate={selectedDate}
                         onDateChange={onDateChange} />
 
+                    <BasicSelect taskPriority={taskPriority}
+                        onPriorityChange={onPriorityChange} />
+
                     <TaskList
                         taskNames={filteredTasks}
                         onDeleteTask={removeFromList}
@@ -168,6 +177,7 @@ function TaskName() {
                         setEditTaskName={setEditTaskName}
                         save={save}
                         reset={reset}
+                        taskPriority={taskPriority}
 
                     />
 

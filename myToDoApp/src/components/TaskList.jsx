@@ -12,7 +12,6 @@ import {
     TableRow,
     TextField
 } from "@mui/material";
-import BasicSelect from "./BasicSelect";
 
 function TaskList({
     taskNames,
@@ -23,7 +22,8 @@ function TaskList({
     editTaskName,
     setEditTaskName,
     save,
-    reset
+    reset,
+    priority
 }) {
 
     return (
@@ -126,7 +126,7 @@ function TaskList({
 
                             <TableCell>
 
-                                <BasicSelect priority={task.priority}/>
+                              {task.priority}
 
                             </TableCell>
 
@@ -219,7 +219,8 @@ function TaskList({
                                             onClick={() =>
                                                 onUpdate(
                                                     task.id,
-                                                    task.name
+                                                    task.name,
+                                                    task.priority
                                                 )
                                             }
                                         >
