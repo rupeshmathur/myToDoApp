@@ -182,7 +182,6 @@ function TaskName() {
                         setEditTaskName={setEditTaskName}
                         save={save}
                         reset={reset}
-                        taskPriority={taskPriority}
                         editTaskPriority={editTaskPriority}
                         onEditPriorityChange={onEditPriorityChange}
 
