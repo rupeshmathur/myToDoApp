@@ -24,8 +24,7 @@ function TaskName() {
     function onPriorityChange(event) {
         setTaskPriority(event.target.value);
     }
-    function onEditPriorityChange(event)
-    {
+    function onEditPriorityChange(event) {
         setEditTaskPriority(event.target.value);
     }
     const filteredTasks = taskNames.filter(
@@ -166,11 +165,28 @@ function TaskName() {
 
                     />
 
-                    <DatePickerLocal selectedDate={selectedDate}
-                        onDateChange={onDateChange} />
+                    <Box
+                        sx={{
+                            display: "flex",
+                            gap: 2,
+                            mb: 4,
+                            alignItems: "flex-start"
+                        }}
+                    >
+                        <Box sx={{ flex: 1 }}>
+                            <DatePickerLocal
+                                selectedDate={selectedDate}
+                                onDateChange={onDateChange}
+                            />
+                        </Box>
 
-                    <BasicSelect taskPriority={taskPriority}
-                        onPriorityChange={onPriorityChange} />
+                        <Box sx={{ flex: 1 }}>
+                            <BasicSelect
+                                taskPriority={taskPriority}
+                                onPriorityChange={onPriorityChange}
+                            />
+                        </Box>
+                    </Box>
 
                     <TaskList
                         taskNames={filteredTasks}

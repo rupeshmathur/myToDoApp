@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -11,7 +10,7 @@ function DatePickerLocal({ selectedDate, onDateChange }) {
         <Typography
             variant="h6"
             sx={{ mb: 2, fontWeight: 600 }}
-        >Selected Date
+        >Task Date
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer

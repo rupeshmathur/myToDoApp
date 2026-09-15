@@ -1,8 +1,8 @@
 import {
     Box,
-    Button,
     Checkbox,
     Chip,
+    IconButton,
     Paper,
     Table,
     TableBody,
@@ -10,9 +10,22 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    TextField
+    TextField,
+    Tooltip,
+    Button
 } from "@mui/material";
-import BasicSelect from "./BasicSelect";
+
+
+
+import {
+    MdCheckCircleOutline,
+    MdDeleteOutline,
+    MdEdit,
+    MdSave,
+    MdClose,
+    MdUndo
+} from "react-icons/md";
+
 
 function TaskList({
     taskNames,
@@ -137,8 +150,17 @@ function TaskList({
 
                                 ) : (
 
-                                    task.priority
-
+                                    <Chip
+                                        label={task.priority}
+                                        size="small"
+                                        color={
+                                            task.priority === "HIGH"
+                                                ? "error"
+                                                : task.priority === "MEDIUM"
+                                                    ? "warning"
+                                                    : "success"
+                                        }
+                                    />
                                 )}
 
                             </TableCell>
@@ -178,85 +200,122 @@ function TaskList({
 
                                 {task.id === editTaskId ? (
 
+                                    // EDIT MODE
                                     <Box
                                         sx={{
                                             display: "flex",
-                                            gap: 1,
-                                            justifyContent: "flex-end"
+                                            justifyContent: "flex-end",
+                                            alignItems: "center",
+                                            gap: 0.5
                                         }}
                                     >
 
-                                        <Button
-                                            variant="contained"
-                                            size="small"
-                                            onClick={save}
-                                        >
-                                            Save
-                                        </Button>
+                                        {/* SAVE */}
+                                        <Tooltip title="Save changes">
+                                            <IconButton
+                                                size="small"
+                                                color="primary"
+                                                onClick={save}
+                                                sx={{
+                                                    border: "1px solid",
+                                                    borderColor: "divider",
+                                                    "&:hover": {
+                                                        backgroundColor: "action.hover"
+                                                    }
+                                                }}
+                                            >
+                                                <MdSave size={20} />
+                                            </IconButton>
+                                        </Tooltip>
 
-                                        <Button
-                                            variant="outlined"
-                                            size="small"
-                                            onClick={reset}
-                                        >
-                                            Cancel
-                                        </Button>
+
+                                        {/* CANCEL */}
+                                        <Tooltip title="Cancel">
+                                            <IconButton
+                                                size="small"
+                                                onClick={reset}
+                                                sx={{
+                                                    border: "1px solid",
+                                                    borderColor: "divider",
+                                                    "&:hover": {
+                                                        backgroundColor: "action.hover"
+                                                    }
+                                                }}
+                                            >
+                                                <MdClose size={20} />
+                                            </IconButton>
+                                        </Tooltip>
 
                                     </Box>
 
                                 ) : (
 
+                                    // NORMAL MODE
                                     <Box
                                         sx={{
                                             display: "flex",
-                                            gap: 1,
-                                            justifyContent: "flex-end"
+                                            justifyContent: "flex-end",
+                                            alignItems: "center",
+                                            gap: 0.5
                                         }}
                                     >
 
-                                        <Button
-                                            variant="outlined"
-                                            size="small"
-                                            onClick={() =>
-                                                onCompleted(task.id)
+                                        {/* COMPLETE / UNDO */}
+                                        <Tooltip
+                                            title={
+                                                task.completed
+                                                    ? "Mark as pending"
+                                                    : "Mark as completed"
                                             }
                                         >
-                                            {task.completed
-                                                ? "Undo"
-                                                : "Complete"}
-                                        </Button>
+                                            <IconButton
+                                                size="small"
+                                                color={task.completed ? "success" : "default"}
+                                                onClick={() => onCompleted(task.id)}
+                                            >
+                                                {task.completed ? (
+                                                    <MdUndo size={20} />
+                                                ) : (
+                                                    <MdCheckCircleOutline size={20} />
+                                                )}
+                                            </IconButton>
+                                        </Tooltip>
 
-                                        <Button
-                                            variant="outlined"
-                                            size="small"
-                                            onClick={() =>
-                                                onUpdate(
-                                                    task.id,
-                                                    task.name,
-                                                    task.priority
-                                                )
-                                            }
-                                        >
-                                            Update
-                                        </Button>
 
-                                        <Button
-                                            variant="outlined"
-                                            color="error"
-                                            size="small"
-                                            onClick={() =>
-                                                onDeleteTask(task)
-                                            }
-                                        >
-                                            Delete
-                                        </Button>
+                                        {/* EDIT */}
+                                        <Tooltip title="Edit task">
+                                            <IconButton
+                                                size="small"
+                                                color="primary"
+                                                onClick={() =>
+                                                    onUpdate(
+                                                        task.id,
+                                                        task.name,
+                                                        task.priority
+                                                    )
+                                                }
+                                            >
+                                                <MdEdit size={20} />
+                                            </IconButton>
+                                        </Tooltip>
+
+
+                                        {/* DELETE */}
+                                        <Tooltip title="Delete task">
+                                            <IconButton
+                                                size="small"
+                                                color="error"
+                                                onClick={() => onDeleteTask(task)}
+                                            >
+                                                <MdDeleteOutline size={20} />
+                                            </IconButton>
+                                        </Tooltip>
 
                                     </Box>
 
                                 )}
 
                             </TableCell>
-
                         </TableRow>
 
                     ))}
